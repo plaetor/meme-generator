@@ -19,9 +19,21 @@ export default function Meme() {
   
   const [allMemeImages, setAllMemeImages] = useState(myMeme)
 
+  function handleChange(event) {
+
+    const {name, value} = event.target
+
+    setMeme(prevMeme => {
+      return {
+      ...prevMeme,
+      [name]: value
+      }
+    })
+  }
+
   function handleClick() {
-    const arrayLength = myMeme.data.memes.length;
-    const newMeme = myMeme.data.memes[Math.floor(Math.random() * (arrayLength))].url ;
+    const arrayLength = allMemeImages.data.memes.length;
+    const newMeme = allMemeImages.data.memes[Math.floor(Math.random() * (arrayLength))].url ;
     console.log(newMeme);
 
     setMeme((prevMeme) => ({
@@ -33,11 +45,30 @@ export default function Meme() {
   return (
     <section>
       <div className="meme--form">
-        <input className="meme--form_input" placeholder="top text" type="text" name="topText"></input>
-        <input className="meme--form_input" placeholder="bottom text" type="text" name="bottomText"></input>
+        <input 
+          className="meme--form_input" 
+          placeholder="top text" 
+          type="text" 
+          name="topText" 
+          value={meme.topText}
+          onChange={handleChange}  
+          />
+        <input 
+          className="meme--form_input" 
+          placeholder="bottom text" 
+          type="text" 
+          name="bottomText" 
+          value={meme.bottomText}
+          onChange={handleChange}
+          />
         <button onClick={handleClick} className="new_meme">Get new image 🖼</button>
       </div>
-      <img src={meme.randomImage} alt="meme" className="meme--image" />
+      <div className="meme">
+        <img src={meme.randomImage} alt="meme" className="meme--image" />
+        <h2 className="meme--text top">{meme.topText}</h2>
+        <h2 className="meme--text bottom">{meme.bottomText}</h2>
+      </div>
+      
     </section>
   )
 }
